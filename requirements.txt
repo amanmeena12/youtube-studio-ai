@@ -1,0 +1,9 @@
+# Core Requirements for MY YOUTUBE CREATOR STUDIO
+streamlit>=1.35.0
+pandas>=2.0.0
+plotly>=5.18.0
+requests>=2.31.0
+
+# Optional Enhancement Packages
+google-api-python-client>=2.100.0
+google-auth-oauthlib>=1.1.0

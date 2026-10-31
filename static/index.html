@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MY YOUTUBE CREATOR STUDIO — Next-Gen Creator SaaS</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            studio: {
+              bg: '#0c0d0e',
+              sidebar: '#111214',
+              card: '#18191c',
+              cardHover: '#212226',
+              border: '#27272a',
+              primary: '#f4f4f5',
+              muted: '#a1a1aa',
+              dim: '#71717a'
+            },
+            yt: {
+              red: '#ff0000',
+              redHover: '#cc0000',
+              blue: '#3ea6ff',
+              green: '#2ba640',
+              amber: '#ffa000'
+            },
+            ai: {
+              violet: '#8b5cf6',
+              violetHover: '#7c3aed',
+              violetGlow: 'rgba(139, 92, 246, 0.25)'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #0c0d0e; color: #f4f4f5; font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #111214; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+    .card-glow:hover { border-color: rgba(255, 0, 0, 0.4); box-shadow: 0 0 20px -4px rgba(255, 0, 0, 0.25); }
+    .ai-glow:hover { border-color: rgba(139, 92, 246, 0.5); box-shadow: 0 0 20px -4px rgba(139, 92, 246, 0.3); }
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden text-studio-primary antialiased select-none">
+
+  <!-- ============================================================================== -->
+  <!-- SIDEBAR NAVIGATION -->
+  <!-- ============================================================================== -->
+  <aside id="sidebar" class="w-64 bg-studio-sidebar border-r border-studio-border flex flex-col justify-between transition-all duration-300 z-30 flex-shrink-0">
+    <div>
+      <!-- Brand Logo Header -->
+      <div class="flex items-center justify-between px-5 py-4 border-b border-studio-border">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center justify-center w-9 h-9 rounded-lg bg-yt-red text-white shadow-sm shadow-yt-red/40 flex-shrink-0">
+            <i data-lucide="youtube" class="w-5 h-5"></i>
+          </div>
+          <div id="brand-text">
+            <div class="font-bold text-sm tracking-wide text-studio-primary flex items-center gap-1.5">
+              STUDIO <span class="text-[10px] px-1.5 py-0.5 rounded bg-ai-violet/20 text-ai-violet font-mono font-semibold">AI</span>
+            </div>
+            <div class="text-[10px] text-studio-dim tracking-wider uppercase font-semibold">Creator Pro 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connected Channel Header Widget -->
+      <div id="channel-pill" class="p-3 mx-3 my-3 rounded-lg bg-studio-card/80 border border-studio-border/70 flex items-center gap-3 cursor-pointer hover:border-zinc-600 transition-colors" onclick="switchNav('scanner')">
+        <img id="nav-channel-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-zinc-700 flex-shrink-0" />
+        <div class="overflow-hidden">
+          <h4 id="nav-channel-title" class="text-xs font-semibold text-studio-primary truncate">Marques Brownlee</h4>
+          <span id="nav-channel-subs" class="text-[11px] text-studio-muted block truncate">18.4M Subscribers</span>
+        </div>
+      </div>
+
+      <!-- Nav Links -->
+      <nav class="px-3 py-1 space-y-1 text-sm font-medium">
+        <button onclick="switchNav('dashboard')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-studio-muted hover:text-studio-primary hover:bg-studio-card/50 transition-colors" data-page="dashboard">
+          <i data-lucide="layout-dashboard" class="w-4 h-4 text-yt-red"></i>
+          <span>Dashboard</span>
+        </button>
+        <button onclick="switchNav('algorithm')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-amber-400 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-all" data-page="algorithm">
+          <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
+          <span class="font-bold text-amber-300">⚡ Algorithm Hack & ML</span>
+          <span class="ml-auto text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">HACK</span>
+        </button>
+        <button onclick="switchNav('scanner')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-studio-muted hover:text-studio-primary hover:bg-studio-card/50 transition-colors" data-page="scanner">
+          <i data-lucide="search" class="w-4 h-4"></i>
+          <span>Channel Scanner</span>
+        </button>
+        <button onclick="switchNav('analyzer')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-studio-muted hover:text-studio-primary hover:bg-studio-card/50 transition-colors" data-page="analyzer">
+          <i data-lucide="video" class="w-4 h-4"></i>
+          <span>Video Upload Analyzer</span>
+        </button>
+        <button onclick="switchNav('competitor')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-studio-muted hover:text-studio-primary hover:bg-studio-card/50 transition-colors" data-page="competitor">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          <span>Competitor Research</span>
+        </button>
+        <button onclick="switchNav('shorts')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-studio-muted hover:text-studio-primary hover:bg-studio-card/50 transition-colors" data-page="shorts">
+          <i data-lucide="clapperboard" class="w-4 h-4"></i>
+          <span>Shorts Studio</span>
+        </button>
+        <button onclick="switchNav('longform')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-studio-muted hover:text-studio-primary hover:bg-studio-card/50 transition-colors" data-page="longform">
+          <i data-lucide="film" class="w-4 h-4"></i>
+          <span>Long-Form Studio</span>
+        </button>
+        <button onclick="switchNav('seo')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-studio-muted hover:text-studio-primary hover:bg-studio-card/50 transition-colors" data-page="seo">
+          <i data-lucide="tag" class="w-4 h-4"></i>
+          <span>SEO & Metadata</span>
+        </button>
+        <button onclick="switchNav('thumbnail')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-studio-muted hover:text-studio-primary hover:bg-studio-card/50 transition-colors" data-page="thumbnail">
+          <i data-lucide="image" class="w-4 h-4"></i>
+          <span>Thumbnail Lab</span>
+        </button>
+        <button onclick="switchNav('planner')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-studio-muted hover:text-studio-primary hover:bg-studio-card/50 transition-colors" data-page="planner">
+          <i data-lucide="calendar" class="w-4 h-4"></i>
+          <span>Publishing Planner</span>
+        </button>
+        <button onclick="switchNav('assistant')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-studio-muted hover:text-studio-primary hover:bg-studio-card/50 transition-colors" data-page="assistant">
+          <i data-lucide="sparkles" class="w-4 h-4 text-ai-violet"></i>
+          <span>AI Creator Copilot</span>
+          <span class="ml-auto text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-ai-violet/20 text-ai-violet">AI</span>
+        </button>
+        <button onclick="switchNav('settings')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-studio-muted hover:text-studio-primary hover:bg-studio-card/50 transition-colors" data-page="settings">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+          <span>Studio Settings</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Footer System Status -->
+    <div class="p-4 border-t border-studio-border text-xs text-studio-dim flex items-center justify-between">
+      <span>Zero-Streamlit Architecture</span>
+      <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="System Operational"></div>
+    </div>
+  </aside>
+
+  <!-- ============================================================================== -->
+  <!-- MAIN CONTENT CONTAINER -->
+  <!-- ============================================================================== -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+    <!-- Top Navbar -->
+    <header class="h-16 bg-studio-sidebar/80 backdrop-blur-md border-b border-studio-border px-6 flex items-center justify-between sticky top-0 z-20">
+      <div class="flex items-center gap-3 w-96 max-w-full">
+        <div class="relative w-full">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-studio-muted"></i>
+          <input type="text" id="global-search" placeholder="Search channels, video titles, or keywords..." class="w-full pl-10 pr-4 py-2 bg-studio-card border border-studio-border rounded-lg text-sm text-studio-primary placeholder-studio-muted focus:outline-none focus:border-zinc-500 transition-colors" onkeydown="if(event.key==='Enter') executeGlobalSearch(this.value)" />
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button id="btn-refresh" onclick="refreshChannelData()" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-studio-card hover:bg-studio-cardHover text-xs font-semibold text-zinc-200 border border-studio-border transition-all">
+          <i data-lucide="rotate-cw" id="icon-refresh" class="w-3.5 h-3.5"></i>
+          <span>Refresh Data</span>
+        </button>
+
+        <div class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          <span>Grounded Engine</span>
+        </div>
+
+        <img id="top-user-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-zinc-700" />
+      </div>
+    </header>
+
+    <!-- Page Workspace Container -->
+    <main id="main-view" class="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+      
+      <!-- ============================================================================== -->
+      <!-- VIEW 1: DASHBOARD -->
+      <!-- ============================================================================== -->
+      <section id="view-dashboard" class="space-y-6">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-2 border-b border-studio-border">
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight text-studio-primary">Channel Dashboard</h1>
+            <p class="text-sm text-studio-muted">Real-time channel overview, baseline viewership, and strategic action items.</p>
+          </div>
+          <div id="dash-audit-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-950/80 text-purple-300 border border-purple-500/40 text-xs font-bold shadow-sm">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-ai-violet"></i>
+            <span>Audit Score: 92/100 (Optimization Ready)</span>
+          </div>
+        </div>
+
+        <!-- 4 Metric Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-5 rounded-xl bg-studio-card border border-studio-border card-glow transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-semibold text-studio-muted uppercase tracking-wider">Subscribers</span>
+              <i data-lucide="users" class="w-4 h-4 text-yt-red"></i>
+            </div>
+            <div id="kpi-subs" class="text-2xl font-bold text-studio-primary">18.4M</div>
+            <div class="flex items-center gap-1.5 mt-2 text-xs text-emerald-400 font-medium">
+              <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+              <span>Active Verified Audience</span>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-xl bg-studio-card border border-studio-border transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-semibold text-studio-muted uppercase tracking-wider">Total Views</span>
+              <i data-lucide="eye" class="w-4 h-4 text-yt-blue"></i>
+            </div>
+            <div id="kpi-views" class="text-2xl font-bold text-studio-primary">4.2B</div>
+            <div class="mt-2 text-xs text-studio-muted">Observed across public uploads</div>
+          </div>
+
+          <div class="p-5 rounded-xl bg-studio-card border border-studio-border transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-semibold text-studio-muted uppercase tracking-wider">Public Videos</span>
+              <i data-lucide="play-square" class="w-4 h-4 text-studio-muted"></i>
+            </div>
+            <div id="kpi-videos" class="text-2xl font-bold text-studio-primary">1,620 Videos</div>
+            <div id="kpi-format-ratio" class="mt-2 text-xs text-studio-muted">Shorts & Long-Form Mixed</div>
+          </div>
+
+          <div class="p-5 rounded-xl bg-studio-card border border-studio-border ai-glow transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-semibold text-studio-muted uppercase tracking-wider">Median Baseline Views</span>
+              <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
+            </div>
+            <div id="kpi-baseline" class="text-2xl font-bold text-studio-primary">1,240,000</div>
+            <div class="mt-2 text-xs text-emerald-400 font-medium">Top Breakout: 14.8M (11.9x)</div>
+          </div>
+        </div>
+
+        <!-- Algorithm Hack & Optimization Alert Banner -->
+        <div class="p-5 rounded-xl bg-gradient-to-r from-amber-950/40 via-purple-950/30 to-zinc-900 border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-lg shadow-amber-950/20">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center flex-shrink-0 border border-amber-500/40 shadow-sm">
+              <i data-lucide="zap" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="font-bold text-sm text-amber-200">YouTube Studio Algorithm Optimization Engine</h3>
+                <span id="dash-algo-grade" class="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-500/30 text-[11px] font-bold">Grade A+ (Browse Dominant)</span>
+              </div>
+              <p id="dash-algo-summary" class="text-xs text-zinc-300 mt-1">Mathematical Log-Normal Outlier Modeling, Scikit-Learn TF-IDF N-Gram Multipliers, and Double-Exponential Retention Decay Simulator are armed.</p>
+            </div>
+          </div>
+          <button onclick="switchNav('algorithm')" class="px-4 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-xs flex items-center gap-2 whitespace-nowrap shadow-md transition-all self-start sm:self-auto">
+            <span>Open Algorithm Studio</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- Recent Uploads Table -->
+        <div class="p-5 rounded-xl bg-studio-card border border-studio-border">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-base font-semibold text-studio-primary">Recent Uploads & Velocity</h2>
+            <button onclick="switchNav('scanner')" class="text-xs font-medium text-studio-muted hover:text-studio-primary">Scan Another Channel →</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead>
+                <tr class="border-b border-studio-border text-xs uppercase font-semibold text-studio-dim">
+                  <th class="pb-3">Video Title</th>
+                  <th class="pb-3">Format</th>
+                  <th class="pb-3">Views</th>
+                  <th class="pb-3">Performance vs Baseline</th>
+                  <th class="pb-3 text-right">Published</th>
+                </tr>
+              </thead>
+              <tbody id="dash-videos-body" class="divide-y divide-studio-border/60 font-medium">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================================== -->
+      <!-- VIEW: ALGORITHM HACK & MACHINE LEARNING STUDIO -->
+      <!-- ============================================================================== -->
+      <section id="view-algorithm" class="hidden space-y-6 max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-2 border-b border-studio-border">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 font-mono text-[11px] font-bold border border-amber-500/40">ALGORITHM OPTIMIZER</span>
+              <h1 class="text-2xl font-bold tracking-tight text-studio-primary flex items-center gap-2">
+                YouTube Studio Algorithm Hack & ML Studio
+              </h1>
+            </div>
+            <p class="text-xs text-studio-muted mt-1">Mathematical recommendation system modeling, double-exponential retention decay simulation, Bayesian CTR estimation, and TF-IDF breakout intelligence.</p>
+          </div>
+          <button onclick="loadAlgorithmicAudit()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs font-bold shadow-md transition-all">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span>Refresh Algorithm Engine</span>
+          </button>
+        </div>
+
+        <!-- 4 Top Diagnostic Metric Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-5 rounded-xl bg-studio-card border border-amber-500/30 shadow-lg shadow-amber-950/20">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-semibold text-amber-300 uppercase tracking-wider">Algorithmic Health</span>
+              <i data-lucide="activity" class="w-4 h-4 text-amber-400"></i>
+            </div>
+            <div id="algo-health-score" class="text-2xl font-bold text-studio-primary">88/100</div>
+            <div id="algo-grade-badge" class="mt-2 text-xs text-emerald-400 font-bold truncate">Grade A+ (Browse Dominant)</div>
+          </div>
+
+          <div class="p-5 rounded-xl bg-studio-card border border-studio-border">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-semibold text-studio-muted uppercase tracking-wider">Breakout Hit Ratio</span>
+              <i data-lucide="zap" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <div id="algo-breakout-ratio" class="text-2xl font-bold text-studio-primary">16.7%</div>
+            <div class="mt-2 text-xs text-zinc-400">Videos exceeding +1.65σ Z-score</div>
+          </div>
+
+          <div class="p-5 rounded-xl bg-studio-card border border-studio-border">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-semibold text-studio-muted uppercase tracking-wider">Distribution Geometry</span>
+              <i data-lucide="bar-chart-2" class="w-4 h-4 text-yt-blue"></i>
+            </div>
+            <div id="algo-dist-type" class="text-lg font-bold text-studio-primary truncate">Log-Normal Viral</div>
+            <div id="algo-skew-kurt" class="mt-2 text-xs text-zinc-400">Skewness: 2.14 • Heavy-Tailed</div>
+          </div>
+
+          <div class="p-5 rounded-xl bg-studio-card border border-studio-border">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-semibold text-studio-muted uppercase tracking-wider">Golden Upload Slot</span>
+              <i data-lucide="clock" class="w-4 h-4 text-purple-400"></i>
+            </div>
+            <div id="algo-golden-window" class="text-lg font-bold text-studio-primary">Thursday 14:00 UTC</div>
+            <div class="mt-2 text-xs text-purple-300">Peak Subscriber Velocity Window</div>
+          </div>
+        </div>
+
+        <!-- Core Algorithmic Bottleneck Banner -->
+        <div class="p-4 rounded-xl bg-studio-card border-l-4 border-l-amber-500 border-r border-t border-b border-studio-border flex items-start gap-3">
+          <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"></i>
+          <div>
+            <h4 class="text-xs font-bold text-amber-300 uppercase tracking-wide">Primary Algorithmic Prescription</h4>
+            <p id="algo-bottleneck-text" class="text-xs text-zinc-200 mt-1 leading-relaxed">Channel has strong initial velocity. Maintaining 4-6 second visual pattern interrupts will preserve Average Percentage Viewed (APV) above the 50% browse feature threshold.</p>
+          </div>
+        </div>
+
+        <!-- SECTION A: RETENTION DECAY CURVE SIMULATOR -->
+        <div class="p-6 rounded-xl bg-studio-card border border-studio-border space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-studio-border">
+            <div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="trending-down" class="w-4 h-4 text-emerald-400"></i>
+                <h3 class="text-base font-bold text-studio-primary">Audience Retention Curve Simulator (R(t))</h3>
+              </div>
+              <p class="text-xs text-studio-muted mt-0.5">Mathematical double-exponential model: <span class="font-mono text-zinc-300">R(t) = w_hook·e^(-λ1·t) + w_body·e^(-λ2·(t/T)) + R_min</span></p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="sim-apv-badge" class="px-3 py-1 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-500/30 text-xs font-bold">APV: 52.4%</span>
+              <span id="sim-avd-badge" class="px-3 py-1 rounded-full bg-zinc-800 text-zinc-300 text-xs font-mono font-medium">AVD: 2:37</span>
+            </div>
+          </div>
+
+          <!-- Simulator Grid: Controls Left, SVG Chart Right -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <!-- Controls (5 cols) -->
+            <div class="lg:col-span-5 space-y-4 p-4 rounded-xl bg-studio-sidebar border border-studio-border">
+              <h4 class="text-xs font-bold text-studio-muted uppercase tracking-wider">Video Dynamics Parameters</h4>
+              
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-zinc-300 font-medium">Video Duration</span>
+                  <span id="lbl-sim-duration" class="font-mono text-emerald-400">300s (5:00)</span>
+                </div>
+                <input type="range" id="rng-sim-duration" min="30" max="1200" step="15" value="300" oninput="updateRetentionSimulation()" class="w-full accent-emerald-500 cursor-pointer" />
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-zinc-300 font-medium">Opening Hook Strength</span>
+                  <span id="lbl-sim-hook" class="font-mono text-amber-400">82/100</span>
+                </div>
+                <input type="range" id="rng-sim-hook" min="20" max="100" step="1" value="82" oninput="updateRetentionSimulation()" class="w-full accent-amber-500 cursor-pointer" />
+                <span class="text-[10px] text-studio-dim block mt-0.5">Controls immediate 0-5s retention drop-off slope (λ1).</span>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-zinc-300 font-medium">Verbal Cadence (Words/Min)</span>
+                  <span id="lbl-sim-wpm" class="font-mono text-yt-blue">150 WPM</span>
+                </div>
+                <input type="range" id="rng-sim-wpm" min="100" max="210" step="5" value="150" oninput="updateRetentionSimulation()" class="w-full accent-yt-blue cursor-pointer" />
+                <span class="text-[10px] text-studio-dim block mt-0.5">Optimal YouTube sweet spot: 140 - 170 WPM.</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 pt-2">
+                <label class="flex items-center gap-2 p-2.5 rounded-lg bg-zinc-900 border border-studio-border cursor-pointer">
+                  <input type="checkbox" id="chk-sim-short" onchange="updateRetentionSimulation()" class="accent-emerald-500 rounded" />
+                  <span class="text-xs text-zinc-300 font-medium">Shorts (9:16)</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-lg bg-zinc-900 border border-studio-border cursor-pointer">
+                  <input type="checkbox" id="chk-sim-fluff" onchange="updateRetentionSimulation()" class="accent-rose-500 rounded" />
+                  <span class="text-xs text-zinc-300 font-medium">Intro Fluff / Logo</span>
+                </label>
+              </div>
+
+              <!-- Checkpoints Readout -->
+              <div class="p-3 rounded-lg bg-zinc-900/80 border border-studio-border space-y-2 text-xs">
+                <div class="flex justify-between items-center">
+                  <span class="text-zinc-400">5-Second Hook Retained:</span>
+                  <span id="sim-5s-val" class="font-bold text-emerald-400">86.2%</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-zinc-400">30-Second Confirmation:</span>
+                  <span id="sim-30s-val" class="font-bold text-amber-400">68.5%</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-zinc-400">Algorithmic Grade:</span>
+                  <span id="sim-grade-val" class="font-bold text-purple-300">Browse Multiplier Tier</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- SVG Retention Graph (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col justify-between space-y-3">
+              <div class="w-full h-64 bg-studio-sidebar border border-studio-border rounded-xl p-3 relative flex items-center justify-center overflow-hidden">
+                <svg id="retention-svg" viewBox="0 0 600 240" class="w-full h-full">
+                  <!-- Dynamically rendered via JavaScript -->
+                </svg>
+              </div>
+
+              <!-- Retention Hotspots & Drop-off Warnings Table -->
+              <div>
+                <h5 class="text-xs font-bold text-studio-muted uppercase tracking-wider mb-2">Simulated Retention Drop-off Hotspots & Fixes</h5>
+                <div id="sim-hotspots-container" class="space-y-2">
+                  <!-- Dynamically rendered -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION B & C: BAYESIAN CTR PREDICTOR & ML TF-IDF N-GRAM MATRIX -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Bayesian Reach & CTR Predictor (6 cols) -->
+          <div class="lg:col-span-6 p-6 rounded-xl bg-studio-card border border-studio-border space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-studio-border">
+              <div class="flex items-center gap-2">
+                <i data-lucide="target" class="w-4 h-4 text-amber-400"></i>
+                <h3 class="text-base font-bold text-studio-primary">Bayesian CTR & Virality Predictor</h3>
+              </div>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300">Beta-Binomial ML</span>
+            </div>
+
+            <div>
+              <label class="text-xs font-semibold text-studio-muted uppercase">Draft Video Title</label>
+              <div class="relative mt-1.5">
+                <input type="text" id="input-ctr-title" placeholder="e.g. Why Nobody Talks About This $1,000 AI Hack in 2026" oninput="runBayesianPrediction()" class="w-full px-3.5 py-2.5 bg-studio-sidebar border border-studio-border rounded-lg text-sm text-studio-primary placeholder-studio-muted focus:outline-none focus:border-amber-500 transition-colors" />
+                <span id="title-char-count" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-mono text-zinc-400">0 / 60</span>
+              </div>
+              <span class="text-[11px] text-studio-dim mt-1 block">Optimal mobile display: 40 - 62 characters (prevents truncation '...' on mobile screens).</span>
+            </div>
+
+            <!-- Predicted Metrics Output -->
+            <div class="grid grid-cols-3 gap-3 p-4 rounded-xl bg-studio-sidebar border border-studio-border text-center">
+              <div>
+                <span class="text-[10px] uppercase font-semibold text-studio-muted block">Expected CTR</span>
+                <span id="pred-ctr-val" class="text-xl font-bold text-amber-400 mt-1 block">7.8%</span>
+                <span id="pred-ctr-ci" class="text-[10px] text-zinc-400 font-mono">95% CI: [5.8% - 10.4%]</span>
+              </div>
+              <div>
+                <span class="text-[10px] uppercase font-semibold text-studio-muted block">Virality Index</span>
+                <span id="pred-virality-val" class="text-xl font-bold text-emerald-400 mt-1 block">85 / 100</span>
+                <span class="text-[10px] text-emerald-400">High Browse Velocity</span>
+              </div>
+              <div>
+                <span class="text-[10px] uppercase font-semibold text-studio-muted block">Format Fit</span>
+                <span id="pred-format-val" class="text-xl font-bold text-purple-300 mt-1 block">Optimal</span>
+                <span class="text-[10px] text-zinc-400">Mobile Safe</span>
+              </div>
+            </div>
+
+            <!-- Strengths & Audit Warnings -->
+            <div class="space-y-2">
+              <h5 class="text-xs font-bold text-studio-muted uppercase tracking-wider">Algorithmic Signals & Triggers</h5>
+              <div id="pred-signals-container" class="space-y-1.5 text-xs">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Machine Learning TF-IDF Winning N-Gram Matrix (6 cols) -->
+          <div class="lg:col-span-6 p-6 rounded-xl bg-studio-card border border-studio-border space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-studio-border">
+              <div class="flex items-center gap-2">
+                <i data-lucide="cpu" class="w-4 h-4 text-purple-400"></i>
+                <h3 class="text-base font-bold text-studio-primary">Machine Learning TF-IDF Winning N-Grams</h3>
+              </div>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-950/80 text-purple-300 border border-purple-500/30">Scikit-Learn NLP</span>
+            </div>
+
+            <p class="text-xs text-studio-muted">Extracted semantic n-grams from top breakout uploads compared to channel median baseline view velocity.</p>
+
+            <div id="ngrams-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-72 overflow-y-auto pr-1">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div class="p-3 rounded-lg bg-zinc-900 border border-studio-border text-xs text-zinc-300">
+              <span class="font-bold text-amber-300">💡 Algorithmic Rule:</span> Titles pairing an extracted high-multiplier N-gram with a Curiosity Gap keyword drive 2.4x higher non-subscriber browse conversions.
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION D: 5 READY-TO-USE ALGORITHMIC TITLE REWRITES -->
+        <div class="p-6 rounded-xl bg-studio-card border border-studio-border space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-studio-border">
+            <div class="flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4 text-ai-violet"></i>
+              <h3 class="text-base font-bold text-studio-primary">High-Impact Algorithmic Title Formulas (One-Click Copy)</h3>
+            </div>
+            <span class="text-xs text-studio-muted">Built from channel-specific TF-IDF tokens</span>
+          </div>
+
+          <div id="title-hacks-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- SECTION E: 7-DAY X 24-HOUR VELOCITY HEATMAP -->
+        <div class="p-6 rounded-xl bg-studio-card border border-studio-border space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-studio-border">
+            <div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="calendar" class="w-4 h-4 text-yt-blue"></i>
+                <h3 class="text-base font-bold text-studio-primary">7-Day x 24-Hour Velocity Heatmap (UTC)</h3>
+              </div>
+              <p class="text-xs text-studio-muted mt-0.5">Empirical indexing matrix showing subscriber peak concurrency and algorithmic recommendation ingestion windows.</p>
+            </div>
+            <div class="flex items-center gap-3 text-xs">
+              <span class="flex items-center gap-1.5 text-zinc-400"><span class="w-3 h-3 rounded bg-zinc-800"></span> Low</span>
+              <span class="flex items-center gap-1.5 text-zinc-400"><span class="w-3 h-3 rounded bg-amber-600"></span> Moderate</span>
+              <span class="flex items-center gap-1.5 text-zinc-400"><span class="w-3 h-3 rounded bg-amber-400"></span> Peak Concurrency</span>
+            </div>
+          </div>
+
+          <!-- Heatmap Matrix Grid -->
+          <div class="overflow-x-auto pb-2">
+            <div id="timing-heatmap-grid" class="min-w-[650px] space-y-1">
+              <!-- Dynamically populated 7 rows x 24 cols -->
+            </div>
+          </div>
+
+          <!-- Golden Window Recommendations -->
+          <div id="golden-windows-container" class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- SECTION F: LOG-NORMAL OUTLIER DISTRIBUTION & STATISTICAL Z-SCORE TABLE -->
+        <div class="p-6 rounded-xl bg-studio-card border border-studio-border space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-studio-border">
+            <div class="flex items-center gap-2">
+              <i data-lucide="table" class="w-4 h-4 text-emerald-400"></i>
+              <h3 class="text-base font-bold text-studio-primary">Statistical Outlier Z-Score & Probability Density Table</h3>
+            </div>
+            <span class="text-xs font-mono text-zinc-400">Z = (ln(Views) - μ) / σ</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead>
+                <tr class="border-b border-studio-border text-xs uppercase font-semibold text-studio-dim">
+                  <th class="pb-3">Video Title</th>
+                  <th class="pb-3">Raw Views</th>
+                  <th class="pb-3">Z-Score (σ)</th>
+                  <th class="pb-3">Statistical Rarity</th>
+                  <th class="pb-3">Baseline Multiplier</th>
+                  <th class="pb-3 text-right">Algorithmic Tier</th>
+                </tr>
+              </thead>
+              <tbody id="algo-outliers-table" class="divide-y divide-studio-border/60 font-medium">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================================== -->
+      <!-- VIEW 2: CHANNEL SCANNER -->
+      <!-- ============================================================================== -->
+      <section id="view-scanner" class="hidden space-y-6 max-w-6xl mx-auto">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-studio-primary">Public Channel Scanner</h1>
+          <p className="text-sm text-studio-muted">Inspect any public YouTube channel URL, handle, or ID to extract live verified statistics and optimization readiness.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-gradient-to-r from-zinc-900 to-zinc-950 border border-studio-border flex flex-col sm:flex-row gap-3">
+          <div class="relative flex-1">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-studio-muted"></i>
+            <input type="text" id="scan-input" placeholder="Paste YouTube channel URL or @handle (e.g. @veritasium or @mkbhd)" class="w-full pl-10 pr-4 py-3 bg-studio-sidebar border border-studio-border rounded-lg text-sm text-studio-primary placeholder-studio-dim focus:outline-none focus:border-zinc-500 font-mono transition-colors" value="https://www.youtube.com/@veritasium" />
+          </div>
+          <button onclick="performScan()" id="btn-scan" class="px-6 py-3 rounded-lg bg-yt-red hover:bg-yt-redHover text-white font-semibold text-sm transition-all shadow-sm">
+            Scan Channel
+          </button>
+        </div>
+
+        <!-- Scanned Profile Card -->
+        <div id="scan-result-card" class="p-6 rounded-xl bg-studio-card border border-studio-border space-y-6">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-5 border-b border-studio-border">
+            <div class="flex items-center gap-4">
+              <img id="scan-avatar" src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=150" alt="Avatar" class="w-16 h-16 rounded-full object-cover ring-2 ring-zinc-700 shadow-md" />
+              <div>
+                <div class="flex items-center gap-2">
+                  <h2 id="scan-title" class="text-xl font-bold text-studio-primary">Veritasium</h2>
+                  <span id="scan-source-badge" class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase bg-emerald-950/80 text-emerald-400 border border-emerald-500/30">Live Ingestion</span>
+                </div>
+                <p id="scan-handle" class="text-sm text-studio-muted font-mono">@veritasium</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="text-xs text-studio-dim block uppercase font-semibold">Optimization Readiness</span>
+              <span id="scan-score" class="text-3xl font-extrabold text-emerald-400">94<span class="text-sm text-studio-muted font-normal">/100</span></span>
+            </div>
+          </div>
+
+          <!-- KPI row -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-b border-studio-border">
+            <div>
+              <span class="text-xs text-studio-dim font-medium uppercase">Subscribers</span>
+              <div id="scan-subs" class="text-lg font-bold text-studio-primary mt-0.5">16.2M</div>
+            </div>
+            <div>
+              <span class="text-xs text-studio-dim font-medium uppercase">Public Videos</span>
+              <div id="scan-vids" class="text-lg font-bold text-studio-primary mt-0.5">410 Videos</div>
+            </div>
+            <div>
+              <span class="text-xs text-studio-dim font-medium uppercase">Total Views</span>
+              <div id="scan-total-views" class="text-lg font-bold text-studio-primary mt-0.5">2.4B Views</div>
+            </div>
+            <div>
+              <span class="text-xs text-studio-dim font-medium uppercase">Median View Baseline</span>
+              <div id="scan-median-baseline" class="text-lg font-bold text-emerald-400 mt-0.5">1,240,000</div>
+            </div>
+          </div>
+
+          <!-- 10-point audit cards -->
+          <div>
+            <h3 class="text-base font-semibold text-studio-primary mb-3">10-Component Optimization Audit</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="audit-breakdown-container">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================================== -->
+      <!-- VIEW 3: VIDEO UPLOAD ANALYZER -->
+      <!-- ============================================================================== -->
+      <section id="view-analyzer" class="hidden space-y-6 max-w-6xl mx-auto">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-studio-primary">Video Upload Analyzer</h1>
+          <p class="text-sm text-studio-muted">Inspect container atoms (MP4/MOV), opening 0-15s verbal hooks, WPM speech pacing, and detect retention drops with exact timestamps.</p>
+        </div>
+
+        <!-- Upload Boxes -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-6 rounded-xl bg-studio-card border-2 border-dashed border-studio-border hover:border-zinc-500 text-center cursor-pointer transition-colors flex flex-col items-center justify-center">
+            <input type="file" id="input-video-file" accept="video/mp4,video/quicktime" class="hidden" onchange="handleVideoFileSelect(this)" />
+            <div onclick="document.getElementById('input-video-file').click()" class="w-full flex flex-col items-center">
+              <i data-lucide="upload-cloud" class="w-8 h-8 text-yt-red mb-2"></i>
+              <h3 class="font-semibold text-studio-primary text-sm">Upload Video Container (MP4, MOV)</h3>
+              <p id="label-video-name" class="text-xs text-studio-muted mt-1">Parses moov/mvhd atoms, resolution, duration, bitrate</p>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-xl bg-studio-card border-2 border-dashed border-studio-border hover:border-zinc-500 text-center cursor-pointer transition-colors flex flex-col items-center justify-center">
+            <input type="file" id="input-sub-file" accept=".srt,.vtt,.txt" class="hidden" onchange="handleSubFileSelect(this)" />
+            <div onclick="document.getElementById('input-sub-file').click()" class="w-full flex flex-col items-center">
+              <i data-lucide="file-video" class="w-8 h-8 text-ai-violet mb-2"></i>
+              <h3 class="font-semibold text-studio-primary text-sm">Upload Subtitles (.srt, .vtt)</h3>
+              <p id="label-sub-name" class="text-xs text-studio-muted mt-1">Extracts dialogue cues, timestamps, and hook pacing</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-studio-muted uppercase">Or Paste Spoken Script / Dialogue Directly</label>
+          <textarea id="input-transcript-text" rows="3" placeholder="Paste opening 60 seconds of transcript to evaluate curiosity hook..." class="w-full mt-1.5 p-3.5 bg-studio-card border border-studio-border rounded-lg text-xs font-mono text-studio-primary focus:outline-none focus:border-zinc-500">Why do 90% of beginners make this fatal mistake? Never upload before checking your audio track. Today we reveal the exact three steps you need to get crystal clear audio on mobile.</textarea>
+        </div>
+
+        <button onclick="runVideoAnalysis()" id="btn-run-analysis" class="px-6 py-3 rounded-lg bg-ai-violet hover:bg-ai-violetHover text-white font-semibold text-sm transition-all shadow-sm flex items-center gap-2">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          <span>Analyze Video File & Retention Metrics</span>
+        </button>
+
+        <!-- Video Evaluation Decision Banner -->
+        <div id="analyzer-decision-banner" class="rounded-xl border-2 border-emerald-500/50 bg-gradient-to-r from-emerald-950/40 via-studio-card to-emerald-950/40 p-6 text-center shadow-lg">
+          <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Pre-Upload Evaluation Decision</span>
+          <div id="va-decision-text" class="text-3xl font-extrabold text-emerald-400 my-2 tracking-tight">READY TO UPLOAD</div>
+          <p class="text-sm text-studio-primary font-medium">
+            Overall Readiness Score: <span id="va-overall-score" class="font-bold text-white text-base">84 / 100</span>
+          </p>
+        </div>
+
+        <!-- 5 Component Scores -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3" id="va-components-grid">
+          <div class="p-4 rounded-xl bg-studio-card border border-studio-border text-center">
+            <span class="text-[11px] font-semibold text-studio-dim uppercase">Technical Quality</span>
+            <div id="sc-tech" class="text-xl font-bold text-emerald-400 mt-1">95/100</div>
+            <span class="text-[10px] text-studio-muted">Container Verified</span>
+          </div>
+          <div class="p-4 rounded-xl bg-studio-card border border-studio-border text-center">
+            <span class="text-[11px] font-semibold text-studio-dim uppercase">Opening Hook</span>
+            <div id="sc-hook" class="text-xl font-bold text-emerald-400 mt-1">88/100</div>
+            <span class="text-[10px] text-studio-muted">Curiosity Anchor</span>
+          </div>
+          <div class="p-4 rounded-xl bg-studio-card border border-studio-border text-center">
+            <span class="text-[11px] font-semibold text-studio-dim uppercase">Pacing & Cadence</span>
+            <div id="sc-pacing" class="text-xl font-bold text-emerald-400 mt-1">92/100</div>
+            <span class="text-[10px] text-studio-muted">165 WPM Optimal</span>
+          </div>
+          <div class="p-4 rounded-xl bg-studio-card border border-studio-border text-center">
+            <span class="text-[11px] font-semibold text-studio-dim uppercase">Story Progression</span>
+            <div id="sc-story" class="text-xl font-bold text-amber-400 mt-1">75/100</div>
+            <span class="text-[10px] text-studio-muted">Clear Milestones</span>
+          </div>
+          <div class="p-4 rounded-xl bg-studio-card border border-studio-border text-center">
+            <span class="text-[11px] font-semibold text-studio-dim uppercase">Ending CTA Payoff</span>
+            <div id="sc-ending" class="text-xl font-bold text-emerald-400 mt-1">90/100</div>
+            <span class="text-[10px] text-studio-muted">Outro Present</span>
+          </div>
+        </div>
+
+        <!-- Detected Problems with Timestamps -->
+        <div class="p-5 rounded-xl bg-studio-card border border-studio-border space-y-3">
+          <h3 class="text-base font-semibold text-studio-primary flex items-center gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>
+            <span>Detected Editing Problems & Timestamps</span>
+          </h3>
+          <div id="va-problems-container" class="space-y-2">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================================== -->
+      <!-- VIEW 4: COMPETITOR RESEARCH -->
+      <!-- ============================================================================== -->
+      <section id="view-competitor" class="hidden space-y-6 max-w-6xl mx-auto">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-studio-primary">Competitor Baseline Intelligence</h1>
+          <p class="text-sm text-studio-muted">Deep-dive into competitor view baselines, breakout outlier videos (>1.5x baseline), upload cadence, and testable hypotheses.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-gradient-to-r from-zinc-900 to-zinc-950 border border-studio-border flex flex-col sm:flex-row gap-3">
+          <div class="relative flex-1">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-studio-muted"></i>
+            <input type="text" id="comp-input" placeholder="Paste competitor channel URL or handle..." class="w-full pl-10 pr-4 py-3 bg-studio-sidebar border border-studio-border rounded-lg text-sm text-studio-primary placeholder-studio-dim focus:outline-none focus:border-zinc-500 font-mono transition-colors" value="https://www.youtube.com/@veritasium" />
+          </div>
+          <button onclick="auditCompetitor()" id="btn-comp-audit" class="px-6 py-3 rounded-lg bg-yt-red hover:bg-yt-redHover text-white font-semibold text-sm transition-all shadow-sm">
+            Audit Competitor
+          </button>
+        </div>
+
+        <!-- Competitor Result Container -->
+        <div id="comp-results" class="p-6 rounded-xl bg-studio-card border border-studio-border space-y-6">
+          <div class="flex items-center gap-4 pb-5 border-b border-studio-border">
+            <img id="comp-avatar" src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=150" class="w-14 h-14 rounded-full object-cover ring-2 ring-zinc-700" />
+            <div>
+              <h2 id="comp-name" class="text-xl font-bold text-studio-primary">Veritasium</h2>
+              <p id="comp-meta" class="text-xs text-studio-muted font-mono">@veritasium • 16.2M Subscribers</p>
+            </div>
+          </div>
+
+          <!-- KPI row -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-b border-studio-border">
+            <div>
+              <span class="text-xs text-studio-dim font-medium uppercase">Median View Baseline</span>
+              <div id="comp-median" class="text-xl font-bold text-studio-primary mt-0.5">1,240,000</div>
+              <span class="text-[10px] text-studio-muted">Expected View Volume</span>
+            </div>
+            <div>
+              <span class="text-xs text-studio-dim font-medium uppercase">Upload Schedule</span>
+              <div id="comp-cadence" class="text-xl font-bold text-studio-primary mt-0.5">Every 9.2 Days</div>
+              <span class="text-[10px] text-studio-muted">Tuesday High Volume</span>
+            </div>
+            <div>
+              <span class="text-xs text-studio-dim font-medium uppercase">Format Winner</span>
+              <div id="comp-format-win" class="text-xl font-bold text-emerald-400 mt-0.5">Long-Form (2.1x)</div>
+              <span class="text-[10px] text-studio-muted">Deep Masterclasses</span>
+            </div>
+            <div>
+              <span class="text-xs text-studio-dim font-medium uppercase">Breakout Outliers</span>
+              <div id="comp-outliers-count" class="text-xl font-bold text-amber-400 mt-0.5">3 Videos</div>
+              <span class="text-[10px] text-studio-muted">>1.5x Baseline</span>
+            </div>
+          </div>
+
+          <!-- Breakout Videos -->
+          <div>
+            <h3 class="text-base font-semibold text-studio-primary mb-3 flex items-center gap-2">
+              <i data-lucide="flame" class="w-4 h-4 text-yt-red"></i>
+              <span>Breakout Outlier Videos (> 1.5x Channel Baseline)</span>
+            </h3>
+            <div id="comp-breakouts-container" class="space-y-2.5">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Actionable Transfer Strategies -->
+          <div>
+            <h3 class="text-base font-semibold text-studio-primary mb-3 flex items-center gap-2">
+              <i data-lucide="lightbulb" class="w-4 h-4 text-ai-violet"></i>
+              <span>Actionable Strategies to Test on Your Channel</span>
+            </h3>
+            <div id="comp-strategies-container" class="space-y-3">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================================== -->
+      <!-- VIEW 5: SHORTS STUDIO -->
+      <!-- ============================================================================== -->
+      <section id="view-shorts" class="hidden space-y-6 max-w-6xl mx-auto">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-studio-primary">YouTube Shorts Studio</h1>
+          <p class="text-sm text-studio-muted">Design 30-45s vertical Shorts with 0-3s curiosity hooks and 160-190 WPM speech cadence.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-4">
+            <div class="p-5 rounded-xl bg-studio-card border border-studio-border space-y-3">
+              <label class="text-xs font-semibold text-studio-muted uppercase">Shorts Concept / Hook Idea</label>
+              <input type="text" id="shorts-concept" value="Never upload your YouTube video until you check this one hidden setting..." class="w-full px-3.5 py-2.5 bg-studio-sidebar border border-studio-border rounded-lg text-sm text-studio-primary focus:outline-none" />
+              <button onclick="generateShortsBlueprint()" class="w-full py-2.5 rounded-lg bg-ai-violet hover:bg-ai-violetHover text-white text-xs font-bold uppercase tracking-wider transition-all">
+                Generate Viral Shorts Script Blueprint
+              </button>
+            </div>
+
+            <div class="p-5 rounded-xl bg-studio-card border border-studio-border space-y-3 font-mono text-xs text-studio-primary">
+              <div class="flex items-center justify-between pb-2 border-b border-studio-border">
+                <span class="text-ai-violet font-bold uppercase">AI Script Blueprint</span>
+                <span class="text-studio-muted">Pacing: 168 WPM</span>
+              </div>
+              <p><span class="text-yt-red font-bold">[00:00 - 00:03 HOOK]:</span> "Never upload your YouTube video until you check this one hidden setting."</p>
+              <p><span class="text-yt-blue font-bold">[00:04 - 00:15 SETUP]:</span> "Most creators lose 40% of their views simply because their audio loudness is crushed by default normalization."</p>
+              <p><span class="text-emerald-400 font-bold">[00:16 - 00:35 PAYOFF]:</span> "In Premiere or CapCut, go to Audio Effects, select 'Loudness Radar', and target exactly minus 14 LUFS."</p>
+              <p><span class="text-purple-400 font-bold">[00:36 - 00:40 LOOP]:</span> "Save this before you edit your next video, because..."</p>
+            </div>
+          </div>
+
+          <!-- 9:16 Mobile Safe Zone Mockup -->
+          <div class="p-5 rounded-xl bg-studio-card border border-studio-border flex flex-col items-center">
+            <span class="text-xs font-semibold text-studio-muted uppercase mb-3 flex items-center gap-1.5">
+              <i data-lucide="smartphone" class="w-4 h-4"></i> 9:16 Mobile Safe-Zone Preview
+            </span>
+            <div class="w-64 h-[440px] rounded-2xl bg-zinc-950 border-4 border-zinc-800 relative overflow-hidden flex flex-col justify-between p-4 shadow-xl">
+              <div class="flex justify-between items-center text-[10px] text-zinc-400">
+                <span>Safe Zone</span>
+                <span class="text-yt-red font-bold">Shorts</span>
+              </div>
+              <div class="text-center my-auto px-2">
+                <span class="text-xs font-bold text-white bg-black/60 px-2.5 py-1.5 rounded-md inline-block shadow">
+                  "Never upload until you check this..."
+                </span>
+              </div>
+              <div class="space-y-1 text-[11px] text-white">
+                <p class="font-bold">@creator • 140K views</p>
+                <p class="text-[10px] text-zinc-300">Fix this hidden setting in 30 seconds! #shorts</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================================== -->
+      <!-- VIEW 6: SEO & METADATA -->
+      <!-- ============================================================================== -->
+      <section id="view-seo" class="hidden space-y-6 max-w-5xl mx-auto">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-studio-primary">SEO & Metadata Studio</h1>
+          <p class="text-sm text-studio-muted">Generate high-CTR titles, structured description templates, and YouTube tags.</p>
+        </div>
+
+        <div class="p-5 rounded-xl bg-studio-card border border-studio-border space-y-4">
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-semibold text-studio-muted uppercase">Video Title</label>
+              <span id="title-char-count" class="text-xs font-mono font-bold text-emerald-400">62 / 100 Chars (Optimal: 35-70)</span>
+            </div>
+            <input type="text" id="seo-title" value="Why 90% of Creators Fail in 2026 (And The 1 Blueprint That Works)" oninput="document.getElementById('title-char-count').innerText = this.value.length + ' / 100 Chars'" class="w-full px-3.5 py-2.5 bg-studio-sidebar border border-studio-border rounded-lg text-sm text-studio-primary focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-studio-muted uppercase">Chapterized Description Template</label>
+            <textarea id="seo-desc" rows="6" class="w-full mt-1.5 p-3.5 bg-studio-sidebar border border-studio-border rounded-lg text-xs font-mono text-studio-primary focus:outline-none">Learn the step-by-step strategy for building a high-retention YouTube channel in 2026.
+
+Timestamps:
+0:00 - The 3-Second Hook Rule
+2:15 - Retention Dips Explained
+6:40 - End-Screen Optimization
+
+Business Inquiries: contact@creator.com
+#YouTubeGrowth #ContentStrategy #CreatorStudio</textarea>
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-studio-muted uppercase">Recommended Comma-Separated Tags</label>
+            <div class="mt-1.5 p-3 bg-studio-sidebar border border-studio-border rounded-lg text-xs font-mono text-studio-primary">
+              youtube growth, video editing, retention, creator economy, shorts algorithm, video packaging, youtube studio
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================================== -->
+      <!-- VIEW 7: AI CREATOR COPILOT -->
+      <!-- ============================================================================== -->
+      <section id="view-assistant" class="hidden space-y-6 max-w-4xl mx-auto flex flex-col h-[calc(100vh-8rem)]">
+        <div class="flex items-center justify-between pb-3 border-b border-studio-border">
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight text-studio-primary flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-5 h-5 text-ai-violet"></i>
+              <span>AI Creator Copilot</span>
+            </h1>
+            <p class="text-sm text-studio-muted">Strictly grounded in your active channel statistics, video metadata, and competitor evidence.</p>
+          </div>
+          <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-ai-violet/10 border border-ai-violet/30 text-purple-300 text-xs font-semibold">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+            <span>5-Section Grounded Mode</span>
+          </div>
+        </div>
+
+        <div id="chat-messages-container" class="flex-1 overflow-y-auto space-y-4 pr-2">
+          <!-- Default AI message -->
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-ai-violet flex items-center justify-center text-white flex-shrink-0 shadow-sm shadow-ai-violet/40">
+              <i data-lucide="bot" class="w-4 h-4"></i>
+            </div>
+            <div class="p-5 rounded-xl bg-studio-card/90 border border-studio-border max-w-2xl text-xs space-y-3 shadow-md">
+              <div class="p-3 rounded-lg bg-zinc-900 border border-studio-border">
+                <span class="font-bold text-emerald-400 uppercase tracking-wider text-[10px] block mb-1">1. VERIFIED EVIDENCE</span>
+                <p class="text-studio-primary">Channel is currently indexed with verified public uploads. Median viewership baseline is calibrated.</p>
+              </div>
+              <div>
+                <span class="font-bold text-purple-300 uppercase tracking-wider text-[10px] block mb-1">2. OBSERVED PATTERNS</span>
+                <p class="text-studio-primary leading-relaxed">Top performing uploads average 1.8x higher reach when titles pose an unsolved problem in under 60 characters.</p>
+              </div>
+              <div class="p-3 rounded-lg bg-ai-violet/10 border border-ai-violet/20">
+                <span class="font-bold text-purple-300 uppercase tracking-wider text-[10px] block mb-1">4. ACTIONABLE RECOMMENDATIONS</span>
+                <p class="text-purple-100">Ask any question about your upload readiness, opening hook curiosity, or competitor baseline multipliers below.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3 rounded-xl bg-studio-card border border-studio-border flex items-center gap-2">
+          <input type="text" id="ai-chat-input" placeholder="Ask a grounded question about your channel, video hooks, or competitors..." class="flex-1 bg-transparent border-0 text-sm text-studio-primary placeholder-studio-dim focus:outline-none px-2" onkeydown="if(event.key==='Enter') sendAiMessage()" />
+          <button onclick="sendAiMessage()" class="px-4 py-2 rounded-lg bg-ai-violet hover:bg-ai-violetHover text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            <span>Send</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ============================================================================== -->
+      <!-- VIEW 8: STUDIO SETTINGS -->
+      <!-- ============================================================================== -->
+      <section id="view-settings" class="hidden space-y-6 max-w-4xl mx-auto">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-studio-primary">Studio Settings & Credentials</h1>
+          <p class="text-sm text-studio-muted">Manage YouTube Data API keys, active channel connection, and server settings.</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-studio-card border border-studio-border space-y-4">
+          <div>
+            <label class="text-xs font-semibold text-studio-muted uppercase">YouTube Data API v3 Key (Optional)</label>
+            <input type="password" id="input-api-key" placeholder="AIzaSy..." class="w-full mt-1.5 px-3.5 py-2.5 bg-studio-sidebar border border-studio-border rounded-lg text-sm text-studio-primary font-mono focus:outline-none" />
+            <span class="text-[11px] text-studio-dim mt-1 block">Public scraping & official RSS feeds function without an API key. Add key for private Studio metrics.</span>
+          </div>
+          <button onclick="saveSettings()" class="px-5 py-2 rounded-lg bg-white text-zinc-900 font-semibold text-xs hover:bg-zinc-200 transition-colors">
+            Save Credentials
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Client-side Interactive JavaScript (Zero-Streamlit) -->
+  <script>
+    let activeChannel = null;
+    let selectedVideoFile = null;
+    let selectedSubFile = null;
+
+    // Initialize Lucide icons
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+      loadActiveChannel();
+    });
+
+    // Navigation Switcher
+    function switchNav(pageId) {
+      document.querySelectorAll(".nav-item").forEach(btn => {
+        if (btn.getAttribute("data-page") === pageId) {
+          btn.classList.add("bg-studio-card", "text-white", "border", "border-studio-border");
+          btn.classList.remove("text-studio-muted");
+        } else {
+          btn.classList.remove("bg-studio-card", "text-white", "border", "border-studio-border");
+          btn.classList.add("text-studio-muted");
+        }
+      });
+
+      document.querySelectorAll("main > section").forEach(sec => sec.classList.add("hidden"));
+      const targetSec = document.getElementById("view-" + pageId);
+      if (targetSec) targetSec.classList.remove("hidden");
+
+      if (pageId === "algorithm") {
+        loadAlgorithmicAudit();
+        updateRetentionSimulation();
+      }
+
+      lucide.createIcons();
+    }
+
+    // Load Active Channel on Boot
+    async function loadActiveChannel() {
+      try {
+        const resp = await fetch("/api/channel/active");
+        const data = await resp.json();
+        if (data.success && data.channel) {
+          activeChannel = data.channel;
+          renderChannelData(data.channel, data.audit);
+          loadAlgorithmicAudit();
+        }
+      } catch (e) {
+        console.error("Failed to load active channel", e);
+      }
+    }
+
+    // Render Channel Data across views
+    function renderChannelData(ch, audit) {
+      if (!ch) return;
+      document.getElementById("nav-channel-title").innerText = ch.title || "Creator Channel";
+      document.getElementById("nav-channel-subs").innerText = ch.subscriber_count_str + " Subscribers";
+      if (ch.profile_image) {
+        document.getElementById("nav-channel-avatar").src = ch.profile_image;
+        document.getElementById("top-user-avatar").src = ch.profile_image;
+      }
+
+      // KPI cards
+      document.getElementById("kpi-subs").innerText = ch.subscriber_count_str || "0";
+      document.getElementById("kpi-views").innerText = ch.view_count_str || "0";
+      document.getElementById("kpi-videos").innerText = ch.video_count + " Videos";
+      document.getElementById("kpi-format-ratio").innerText = `${ch.shorts_count || 0} Shorts • ${ch.long_count || 0} Long-Form`;
+
+      // Render recent uploads table
+      const tbody = document.getElementById("dash-videos-body");
+      tbody.innerHTML = "";
+      const vids = ch.videos || [];
+      vids.slice(0, 6).forEach(v => {
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-studio-cardHover/60 transition-colors";
+        tr.innerHTML = `
+          <td class="py-3 pr-4 flex items-center gap-3">
+            <img src="${v.thumbnail || 'https://via.placeholder.com/120x68'}" class="w-16 h-10 rounded object-cover flex-shrink-0" />
+            <span class="font-medium text-studio-primary line-clamp-1">${v.title}</span>
+          </td>
+          <td class="py-3"><span class="px-2 py-0.5 rounded text-xs font-semibold ${v.is_short ? 'bg-emerald-950/80 text-emerald-400' : 'bg-zinc-800 text-zinc-300'}">${v.is_short ? 'Shorts' : 'Long-Form'}</span></td>
+          <td class="py-3 font-semibold text-studio-primary">${v.views ? v.views.toLocaleString() : '0'}</td>
+          <td class="py-3 text-emerald-400 font-medium">${v.baseline_multiplier ? v.baseline_multiplier + 'x' : '1.0x'}</td>
+          <td class="py-3 text-right text-studio-muted text-xs">${v.published_at ? v.published_at.substring(0, 10) : 'Recent'}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Audit breakdown
+      if (audit) {
+        const bdContainer = document.getElementById("audit-breakdown-container");
+        bdContainer.innerHTML = "";
+        const bd = audit.score_breakdown || {};
+        for (let [k, v] of Object.entries(bd)) {
+          const div = document.createElement("div");
+          div.className = "p-3 rounded-lg bg-zinc-900 border border-studio-border flex items-center justify-between";
+          div.innerHTML = `
+            <div>
+              <span class="font-semibold text-sm text-studio-primary capitalize">${k.replace(/_/g, ' ')}</span>
+              <span class="text-xs text-studio-muted block">Direct evidence rating</span>
+            </div>
+            <span class="text-emerald-400 font-bold text-sm">${v}/100</span>
+          `;
+          bdContainer.appendChild(div);
+        }
+      }
+      lucide.createIcons();
+    }
+
+    // Perform Channel Scan via API
+    async function performScan() {
+      const input = document.getElementById("scan-input").value.trim();
+      if (!input) return;
+
+      const btn = document.getElementById("btn-scan");
+      btn.innerText = "Scanning Live...";
+      btn.disabled = true;
+
+      try {
+        const resp = await fetch("/api/channel/scan", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url_or_handle: input, force_refresh: true })
+        });
+        const data = await resp.json();
+        if (data.success) {
+          activeChannel = data.channel;
+          renderChannelData(data.channel, data.audit);
+          // Update scanner view specifically
+          document.getElementById("scan-title").innerText = data.channel.title;
+          document.getElementById("scan-handle").innerText = data.channel.custom_url;
+          document.getElementById("scan-avatar").src = data.channel.profile_image;
+          document.getElementById("scan-score").innerHTML = `${data.audit.overall_score}<span class="text-sm text-studio-muted font-normal">/100</span>`;
+          document.getElementById("scan-subs").innerText = data.channel.subscriber_count_str;
+          document.getElementById("scan-vids").innerText = data.channel.video_count + " Videos";
+          document.getElementById("scan-total-views").innerText = data.channel.view_count_str;
+        } else {
+          alert("Scan Error: " + data.error);
+        }
+      } catch (e) {
+        alert("Scan Failed: " + e.message);
+      } finally {
+        btn.innerText = "Scan Channel";
+        btn.disabled = false;
+        lucide.createIcons();
+      }
+    }
+
+    // Refresh Active Channel Data
+    async function refreshChannelData() {
+      if (!activeChannel) return;
+      const icon = document.getElementById("icon-refresh");
+      icon.classList.add("animate-spin");
+      try {
+        const resp = await fetch("/api/channel/scan", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url_or_handle: activeChannel.channel_id, force_refresh: true })
+        });
+        const data = await resp.json();
+        if (data.success) {
+          activeChannel = data.channel;
+          renderChannelData(data.channel, data.audit);
+        }
+      } finally {
+        icon.classList.remove("animate-spin");
+      }
+    }
+
+    // Audit Competitor via API
+    async function auditCompetitor() {
+      const input = document.getElementById("comp-input").value.trim();
+      if (!input) return;
+
+      const btn = document.getElementById("btn-comp-audit");
+      btn.innerText = "Auditing...";
+      btn.disabled = true;
+
+      try {
+        const resp = await fetch("/api/competitor/single", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url_or_handle: input })
+        });
+        const data = await resp.json();
+        if (data.success && data.data) {
+          const res = data.data;
+          const ch = res.channel;
+          document.getElementById("comp-name").innerText = ch.title;
+          document.getElementById("comp-meta").innerText = `${ch.custom_url} • ${ch.subscriber_count_str} Subscribers`;
+          document.getElementById("comp-avatar").src = ch.profile_image;
+          document.getElementById("comp-median").innerText = res.baseline.median_views.toLocaleString();
+          document.getElementById("comp-cadence").innerText = res.upload_cadence.summary || "Weekly";
+          document.getElementById("comp-format-win").innerText = res.format_analysis.leading_format;
+          document.getElementById("comp-outliers-count").innerText = (res.breakout_videos || []).length + " Videos";
+
+          // Render Breakouts
+          const boContainer = document.getElementById("comp-breakouts-container");
+          boContainer.innerHTML = "";
+          (res.breakout_videos || []).forEach(bv => {
+            const div = document.createElement("div");
+            div.className = "p-3.5 rounded-lg bg-zinc-900 border border-studio-border flex flex-col sm:flex-row sm:items-center justify-between gap-3";
+            div.innerHTML = `
+              <div>
+                <span class="font-semibold text-sm text-studio-primary block">${bv.title}</span>
+                <span class="text-xs text-studio-muted">Views: <strong>${bv.views.toLocaleString()}</strong> • Velocity: <strong>${bv.views_per_day.toLocaleString()} views/day</strong> • Published: ${bv.published_at}</span>
+              </div>
+              <span class="px-2.5 py-1 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-500/30 text-xs font-bold whitespace-nowrap">${bv.baseline_multiplier}x Baseline</span>
+            `;
+            boContainer.appendChild(div);
+          });
+
+          // Render Strategies
+          const stContainer = document.getElementById("comp-strategies-container");
+          stContainer.innerHTML = "";
+          (res.transfer_strategies || []).forEach(st => {
+            const div = document.createElement("div");
+            div.className = "p-4 rounded-lg bg-studio-sidebar border border-studio-border border-l-4 border-l-ai-violet space-y-2";
+            div.innerHTML = `
+              <span class="font-bold text-sm text-purple-300 block">${st.strategy_title}</span>
+              <p class="text-xs text-studio-primary"><strong>[Measured Fact]</strong> ${st.evidence_measured_fact}</p>
+              <p class="text-xs text-purple-200"><strong>[Creator Hypothesis]</strong> ${st.creator_hypothesis}</p>
+              <div class="p-2.5 rounded bg-ai-violet/10 text-xs text-purple-200 font-medium">🎯 <strong>[Actionable Test]</strong> ${st.actionable_test}</div>
+            `;
+            stContainer.appendChild(div);
+          });
+        }
+      } catch (e) {
+        alert("Competitor Audit Failed: " + e.message);
+      } finally {
+        btn.innerText = "Audit Competitor";
+        btn.disabled = false;
+        lucide.createIcons();
+      }
+    }
+
+    // Video Upload Handlers
+    function handleVideoFileSelect(input) {
+      if (input.files && input.files[0]) {
+        selectedVideoFile = input.files[0];
+        document.getElementById("label-video-name").innerText = `Selected: ${selectedVideoFile.name} (${(selectedVideoFile.size / (1024*1024)).toFixed(1)} MB)`;
+      }
+    }
+
+    function handleSubFileSelect(input) {
+      if (input.files && input.files[0]) {
+        selectedSubFile = input.files[0];
+        document.getElementById("label-sub-name").innerText = `Selected: ${selectedSubFile.name}`;
+      }
+    }
+
+    // Run Video Analysis via API
+    async function runVideoAnalysis() {
+      const btn = document.getElementById("btn-run-analysis");
+      btn.innerHTML = `<i data-lucide="rotate-cw" class="w-4 h-4 animate-spin"></i> Inspecting Container & Cadence...`;
+      btn.disabled = true;
+
+      const transcript = document.getElementById("input-transcript-text").value;
+      const formData = new FormData();
+      if (selectedVideoFile) formData.append("video", selectedVideoFile);
+      if (selectedSubFile) formData.append("subtitles", selectedSubFile);
+      formData.append("transcript", transcript);
+      formData.append("topic", selectedVideoFile ? selectedVideoFile.name : "Video Analysis");
+
+      try {
+        const resp = await fetch("/api/video/analyze", {
+          method: "POST",
+          body: formData
+        });
+        const data = await resp.json();
+        if (data.success && data.analysis) {
+          const an = data.analysis;
+          document.getElementById("va-decision-text").innerText = an.readiness_recommendation;
+          document.getElementById("va-decision-text").style.color = an.readiness_color || "#2BA640";
+          document.getElementById("va-overall-score").innerText = an.overall_score + " / 100";
+
+          // Component scores
+          const cs = an.component_scores || {};
+          document.getElementById("sc-tech").innerText = (cs.technical_quality || 85) + "/100";
+          document.getElementById("sc-hook").innerText = (cs.opening_hook || 80) + "/100";
+          document.getElementById("sc-pacing").innerText = (cs.pacing_cadence || 85) + "/100";
+          document.getElementById("sc-story").innerText = (cs.story_progression || 75) + "/100";
+          document.getElementById("sc-ending").innerText = (cs.ending_payoff || 70) + "/100";
+
+          // Render detected problems
+          const probContainer = document.getElementById("va-problems-container");
+          probContainer.innerHTML = "";
+          (an.detected_problems || []).forEach(p => {
+            const div = document.createElement("div");
+            div.className = "p-3.5 rounded-lg bg-zinc-900 border border-studio-border flex flex-col sm:flex-row sm:items-center justify-between gap-2";
+            div.innerHTML = `
+              <div>
+                <span class="px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 font-mono text-xs font-semibold">⏱️ ${p.timestamp || 'Global'}</span>
+                <span class="font-semibold text-sm text-studio-primary ml-2">${p.issue}</span>
+                <p class="text-xs text-studio-muted mt-1">Practical Fix: ${p.fix}</p>
+              </div>
+              <span class="px-2 py-0.5 rounded text-xs font-semibold bg-rose-950/80 text-rose-400 border border-rose-500/30 whitespace-nowrap">${p.severity || 'Medium'} Priority</span>
+            `;
+            probContainer.appendChild(div);
+          });
+        }
+      } catch (e) {
+        alert("Video Analysis Failed: " + e.message);
+      } finally {
+        btn.innerHTML = `<i data-lucide="sparkles" class="w-4 h-4"></i> Analyze Video File & Retention Metrics`;
+        btn.disabled = false;
+        lucide.createIcons();
+      }
+    }
+
+    // AI Chat Handler
+    async function sendAiMessage() {
+      const input = document.getElementById("ai-chat-input");
+      const query = input.value.trim();
+      if (!query) return;
+
+      const container = document.getElementById("chat-messages-container");
+      // Add user message
+      const userDiv = document.createElement("div");
+      userDiv.className = "flex items-start gap-3 justify-end";
+      userDiv.innerHTML = `
+        <div class="p-4 rounded-xl bg-studio-card border border-studio-border max-w-xl text-sm text-studio-primary">${query}</div>
+        <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-300 flex-shrink-0">
+          <i data-lucide="user" class="w-4 h-4"></i>
+        </div>
+      `;
+      container.appendChild(userDiv);
+      input.value = "";
+      lucide.createIcons();
+
+      // Fetch AI response
+      try {
+        const resp = await fetch("/api/ai/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query })
+        });
+        const data = await resp.json();
+        if (data.success && data.response) {
+          const aiDiv = document.createElement("div");
+          aiDiv.className = "flex items-start gap-3";
+          aiDiv.innerHTML = `
+            <div class="w-8 h-8 rounded-full bg-ai-violet flex items-center justify-center text-white flex-shrink-0 shadow-sm shadow-ai-violet/40">
+              <i data-lucide="bot" class="w-4 h-4"></i>
+            </div>
+            <div class="p-5 rounded-xl bg-studio-card/90 border border-studio-border max-w-2xl text-xs space-y-3 shadow-md whitespace-pre-wrap">${data.response.answer}</div>
+          `;
+          container.appendChild(aiDiv);
+          container.scrollTop = container.scrollHeight;
+          lucide.createIcons();
+        }
+      } catch (e) {
+        console.error("AI chat error", e);
+      }
+    }
+
+    function executeGlobalSearch(val) {
+      if (!val) return;
+      document.getElementById("scan-input").value = val;
+      switchNav("scanner");
+      performScan();
+    }
+
+    // =========================================================================
+    // ALGORITHM HACK & MACHINE LEARNING STUDIO JAVASCRIPT
+    // =========================================================================
+    let cachedAlgoAudit = null;
+    let ctrDebounceTimer = null;
+
+    async function loadAlgorithmicAudit() {
+      try {
+        const resp = await fetch("/api/algorithm/audit");
+        const data = await resp.json();
+        if (data.success && data.audit) {
+          cachedAlgoAudit = data.audit;
+          renderAlgorithmicAudit(data.audit);
+        }
+      } catch (e) {
+        console.error("Failed to load algorithmic audit", e);
+      }
+    }
+
+    function renderAlgorithmicAudit(audit) {
+      if (!audit) return;
+
+      // Top Diagnostics
+      const healthScore = audit.algorithmic_health_score || 85;
+      document.getElementById("algo-health-score").innerText = healthScore + "/100";
+      document.getElementById("algo-grade-badge").innerText = audit.algorithmic_grade || "Grade A (Browse Dominant)";
+      
+      const dist = audit.outlier_distribution || {};
+      const metrics = dist.metrics || {};
+      document.getElementById("algo-breakout-ratio").innerText = (metrics.breakout_ratio_pct || 15.0) + "%";
+      document.getElementById("algo-dist-type").innerText = dist.distribution_type || "Log-Normal Viral";
+      document.getElementById("algo-skew-kurt").innerText = `Skewness: ${metrics.skewness || 2.1} • Kurtosis: ${metrics.kurtosis || 4.5}`;
+
+      // Dashboard Banner Sync
+      const dashGrade = document.getElementById("dash-algo-grade");
+      if (dashGrade) dashGrade.innerText = audit.algorithmic_grade || "Grade A+ (Browse Dominant)";
+
+      // Bottleneck
+      const bn = audit.core_algorithmic_bottleneck || "Maintain 4-6 second visual pattern interrupts to preserve retention.";
+      document.getElementById("algo-bottleneck-text").innerText = bn;
+
+      // TF-IDF Winning N-Grams
+      const ngramsRes = audit.winning_ngrams || {};
+      const ngramsGrid = document.getElementById("ngrams-grid");
+      if (ngramsGrid) {
+        ngramsGrid.innerHTML = "";
+        const topNg = ngramsRes.top_ngrams || [];
+        topNg.forEach(ng => {
+          const div = document.createElement("div");
+          div.className = "p-3 rounded-lg bg-studio-sidebar border border-studio-border hover:border-amber-500/40 transition-colors cursor-pointer";
+          div.onclick = () => {
+            document.getElementById("input-ctr-title").value = `Why Nobody Talks About ${ng.phrase} (In 2026)`;
+            runBayesianPrediction();
+          };
+          div.innerHTML = `
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 font-bold">${ng.multiplier}x Lift</span>
+              <span class="text-[9px] text-studio-dim uppercase">${ng.ngram_type}</span>
+            </div>
+            <span class="font-bold text-xs text-studio-primary block truncate">${ng.phrase}</span>
+            <span class="text-[10px] text-studio-muted block truncate mt-0.5">${ng.category}</span>
+          `;
+          ngramsGrid.appendChild(div);
+        });
+      }
+
+      // 5 Algorithmic Title Hacks
+      const thContainer = document.getElementById("title-hacks-container");
+      if (thContainer) {
+        thContainer.innerHTML = "";
+        (audit.title_hacks || []).forEach(th => {
+          const div = document.createElement("div");
+          div.className = "p-4 rounded-xl bg-studio-sidebar border border-studio-border space-y-2 relative group hover:border-zinc-500 transition-colors";
+          div.innerHTML = `
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-semibold text-amber-300">${th.formula}</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-400 text-[10px] font-bold">${th.predicted_ctr} CTR</span>
+            </div>
+            <p class="font-bold text-sm text-studio-primary select-all">${th.template}</p>
+            <div class="flex items-center justify-between pt-1">
+              <span class="text-[11px] text-zinc-400">Est. Lift: <strong class="text-emerald-400">${th.expected_lift}</strong></span>
+              <button onclick="copyToClipboard('${th.template.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-200 flex items-center gap-1 transition-all">
+                <i data-lucide="copy" class="w-3 h-3"></i>
+                <span>Copy</span>
+              </button>
+            </div>
+          `;
+          thContainer.appendChild(div);
+        });
+      }
+
+      // Timing Heatmap
+      const timingRes = audit.timing_heatmap || {};
+      renderTimingHeatmap(timingRes.heatmap || [], timingRes.golden_windows || []);
+
+      // Statistical Outlier Z-Score Table
+      const outTable = document.getElementById("algo-outliers-table");
+      if (outTable) {
+        outTable.innerHTML = "";
+        const vids = dist.videos || [];
+        vids.slice(0, 8).forEach(v => {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-studio-cardHover/60 transition-colors";
+          const badgeClass = v.badge === "BREAKOUT" 
+            ? "bg-amber-500/20 text-amber-300 border-amber-500/40" 
+            : (v.badge === "HIGH" ? "bg-emerald-950/80 text-emerald-400 border-emerald-500/30" : "bg-zinc-800 text-zinc-300 border-zinc-700");
+          
+          tr.innerHTML = `
+            <td class="py-3 pr-4 flex items-center gap-3">
+              <img src="${v.thumbnail_url || 'https://via.placeholder.com/120x68'}" class="w-14 h-9 rounded object-cover flex-shrink-0" />
+              <span class="font-medium text-studio-primary line-clamp-1">${v.title}</span>
+            </td>
+            <td class="py-3 font-semibold text-studio-primary">${v.views ? v.views.toLocaleString() : '0'}</td>
+            <td class="py-3 font-mono text-xs font-bold ${v.z_score >= 1.5 ? 'text-amber-400' : 'text-zinc-300'}">${v.z_score >= 0 ? '+' : ''}${v.z_score}σ</td>
+            <td class="py-3 font-mono text-xs text-zinc-300">${v.percentile}% (Top ${Math.max(0.1, (100 - v.percentile)).toFixed(1)}%)</td>
+            <td class="py-3 text-emerald-400 font-bold">${v.multiplier}x</td>
+            <td class="py-3 text-right">
+              <span class="px-2 py-0.5 rounded border text-[11px] font-bold ${badgeClass}">${v.badge}</span>
+            </td>
+          `;
+          outTable.appendChild(tr);
+        });
+      }
+
+      lucide.createIcons();
+    }
+
+    // Render 7x24 Timing Heatmap Grid
+    function renderTimingHeatmap(heatmapRows, goldenWindows) {
+      const container = document.getElementById("timing-heatmap-grid");
+      if (!container) return;
+      container.innerHTML = "";
+
+      // Header row with 24 hours
+      const hRow = document.createElement("div");
+      hRow.className = "flex items-center text-[10px] text-studio-dim font-mono mb-1";
+      hRow.innerHTML = `<span class="w-16 flex-shrink-0">UTC</span>` + 
+        Array.from({length: 24}, (_, i) => `<span class="flex-1 text-center">${i}</span>`).join("");
+      container.appendChild(hRow);
+
+      // 7 Day rows
+      heatmapRows.forEach(row => {
+        const dRow = document.createElement("div");
+        dRow.className = "flex items-center gap-0.5";
+        
+        let colsHtml = `<span class="w-16 flex-shrink-0 text-xs font-medium text-zinc-400">${row.day_name.substring(0, 3)}</span>`;
+        (row.hourly_scores || []).forEach((score, h) => {
+          let bg = "bg-zinc-900";
+          if (score >= 80) bg = "bg-amber-400";
+          else if (score >= 60) bg = "bg-amber-600";
+          else if (score >= 40) bg = "bg-amber-800/80";
+          else if (score >= 20) bg = "bg-zinc-800";
+
+          colsHtml += `<div class="flex-1 h-5 rounded-[2px] ${bg} hover:ring-1 hover:ring-white transition-all cursor-pointer" title="${row.day_name} ${h}:00 UTC — Velocity Index: ${score}"></div>`;
+        });
+        dRow.innerHTML = colsHtml;
+        container.appendChild(dRow);
+      });
+
+      // Golden Windows cards
+      const gwContainer = document.getElementById("golden-windows-container");
+      if (gwContainer) {
+        gwContainer.innerHTML = "";
+        (goldenWindows || []).forEach((gw, idx) => {
+          const div = document.createElement("div");
+          div.className = "p-3.5 rounded-lg bg-studio-sidebar border border-studio-border";
+          div.innerHTML = `
+            <div class="flex items-center justify-between text-xs mb-1">
+              <span class="font-bold text-amber-300">#${idx+1} Golden Slot</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 font-mono text-[10px] font-bold">${gw.velocity_index} Index</span>
+            </div>
+            <span class="font-bold text-sm text-studio-primary block">${gw.day}</span>
+            <span class="text-xs font-mono text-emerald-400 block mt-0.5">${gw.recommended_publish_time_utc}</span>
+            <p class="text-[10px] text-zinc-400 mt-1">${gw.rationale}</p>
+          `;
+          gwContainer.appendChild(div);
+        });
+
+        // Set top golden window card in header
+        if (goldenWindows.length > 0) {
+          const topGW = goldenWindows[0];
+          document.getElementById("algo-golden-window").innerText = `${topGW.day} ${topGW.recommended_publish_time_utc}`;
+        }
+      }
+    }
+
+    // =========================================================================
+    // RETENTION DECAY CURVE SIMULATOR INTERACTION
+    // =========================================================================
+    async function updateRetentionSimulation() {
+      const dur = parseFloat(document.getElementById("rng-sim-duration").value);
+      const hook = parseFloat(document.getElementById("rng-sim-hook").value);
+      const wpm = parseFloat(document.getElementById("rng-sim-wpm").value);
+      const isShort = document.getElementById("chk-sim-short").checked;
+      const hasFluff = document.getElementById("chk-sim-fluff").checked;
+
+      // Update Labels
+      const m = Math.floor(dur / 60);
+      const s = Math.floor(dur % 60);
+      document.getElementById("lbl-sim-duration").innerText = `${dur}s (${m}:${s < 10 ? '0' : ''}${s})`;
+      document.getElementById("lbl-sim-hook").innerText = `${hook}/100`;
+      document.getElementById("lbl-sim-wpm").innerText = `${wpm} WPM`;
+
+      try {
+        const resp = await fetch("/api/algorithm/retention-sim", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            duration_sec: dur,
+            hook_score: hook,
+            pacing_wpm: wpm,
+            cuts_per_min: 8.0,
+            has_intro_fluff: hasFluff,
+            is_short: isShort
+          })
+        });
+        const data = await resp.json();
+        if (data.success && data.simulation) {
+          const sim = data.simulation;
+          const met = sim.metrics || {};
+          
+          document.getElementById("sim-apv-badge").innerText = `APV: ${met.apv_pct}%`;
+          const avdM = Math.floor(met.avd_sec / 60);
+          const avdS = Math.floor(met.avd_sec % 60);
+          document.getElementById("sim-avd-badge").innerText = `AVD: ${avdM}:${avdS < 10 ? '0' : ''}${avdS}`;
+
+          document.getElementById("sim-5s-val").innerText = `${met.retention_5s_pct}%`;
+          document.getElementById("sim-30s-val").innerText = `${met.retention_30s_pct}%`;
+          document.getElementById("sim-grade-val").innerText = met.retention_grade;
+
+          // Draw SVG Curve
+          drawRetentionCurveSVG(sim.curve_points || [], met.apv_pct || 50);
+
+          // Render Hotspots
+          const hsContainer = document.getElementById("sim-hotspots-container");
+          if (hsContainer) {
+            hsContainer.innerHTML = "";
+            (sim.hotspots || []).forEach(hs => {
+              const div = document.createElement("div");
+              div.className = "p-2.5 rounded-lg bg-zinc-900 border border-studio-border flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-2";
+              div.innerHTML = `
+                <div>
+                  <span class="px-2 py-0.5 rounded bg-zinc-800 text-amber-400 font-mono font-bold mr-2">${hs.timestamp}</span>
+                  <span class="font-bold text-studio-primary">${hs.drop_risk} (${hs.predicted_loss})</span>
+                  <p class="text-[11px] text-zinc-400 mt-0.5">${hs.fix}</p>
+                </div>
+              `;
+              hsContainer.appendChild(div);
+            });
+            if ((sim.hotspots || []).length === 0) {
+              hsContainer.innerHTML = `<div class="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 text-xs font-medium">✅ Flawless Pacing: Retention curve maintains high viewer attention without severe drop-off inflection points.</div>`;
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Simulation error", e);
+      }
+    }
+
+    // SVG Drawing function for Retention Decay Curve
+    function drawRetentionCurveSVG(points, apv) {
+      const svg = document.getElementById("retention-svg");
+      if (!svg || points.length === 0) return;
+
+      const W = 600;
+      const H = 240;
+      const padX = 40;
+      const padY = 25;
+      const graphW = W - padX - 20;
+      const graphH = H - padY - 30;
+
+      const maxT = points[points.length - 1].time_sec || 1;
+
+      // Coordinate mapper
+      const getX = t => padX + (t / maxT) * graphW;
+      const getY = r => padY + graphH - (r / 100.0) * graphH;
+
+      // Build path string
+      let pathD = `M ${getX(points[0].time_sec)} ${getY(points[0].retention_pct)}`;
+      for (let i = 1; i < points.length; i++) {
+        const x = getX(points[i].time_sec);
+        const y = getY(points[i].retention_pct);
+        pathD += ` L ${x} ${y}`;
+      }
+
+      // Fill area path under curve
+      const lastPt = points[points.length - 1];
+      const areaD = pathD + ` L ${getX(lastPt.time_sec)} ${padY + graphH} L ${padX} ${padY + graphH} Z`;
+
+      // 5s and 30s marker positions
+      const x5 = getX(Math.min(maxT, 5));
+      const x30 = getX(Math.min(maxT, 30));
+
+      svg.innerHTML = `
+        <defs>
+          <linearGradient id="curveGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#10b981" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#10b981" stop-opacity="0.0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Horizontal Grid Lines -->
+        <line x1="${padX}" y1="${getY(100)}" x2="${W - 20}" y2="${getY(100)}" stroke="#27272a" stroke-dasharray="3,3" />
+        <line x1="${padX}" y1="${getY(75)}" x2="${W - 20}" y2="${getY(75)}" stroke="#27272a" stroke-dasharray="3,3" />
+        <line x1="${padX}" y1="${getY(50)}" x2="${W - 20}" y2="${getY(50)}" stroke="#27272a" stroke-dasharray="3,3" />
+        <line x1="${padX}" y1="${getY(25)}" x2="${W - 20}" y2="${getY(25)}" stroke="#27272a" stroke-dasharray="3,3" />
+
+        <!-- Y Axis Labels -->
+        <text x="${padX - 8}" y="${getY(100) + 4}" fill="#71717a" font-size="10" text-anchor="end" font-family="monospace">100%</text>
+        <text x="${padX - 8}" y="${getY(75) + 4}" fill="#71717a" font-size="10" text-anchor="end" font-family="monospace">75%</text>
+        <text x="${padX - 8}" y="${getY(50) + 4}" fill="#71717a" font-size="10" text-anchor="end" font-family="monospace">50%</text>
+        <text x="${padX - 8}" y="${getY(25) + 4}" fill="#71717a" font-size="10" text-anchor="end" font-family="monospace">25%</text>
+
+        <!-- 5s Hook Line -->
+        <line x1="${x5}" y1="${padY}" x2="${x5}" y2="${padY + graphH}" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.7" />
+        <text x="${x5 + 4}" y="${padY + 14}" fill="#f59e0b" font-size="9" font-family="monospace" font-weight="bold">5s Hook</text>
+
+        <!-- 30s Line -->
+        <line x1="${x30}" y1="${padY}" x2="${x30}" y2="${padY + graphH}" stroke="#3ea6ff" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.7" />
+        <text x="${x30 + 4}" y="${padY + 28}" fill="#3ea6ff" font-size="9" font-family="monospace" font-weight="bold">30s Mark</text>
+
+        <!-- Gradient Area Fill -->
+        <path d="${areaD}" fill="url(#curveGradient)" />
+
+        <!-- Curve Line -->
+        <path d="${pathD}" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" />
+
+        <!-- Data Point Dots at 5s, 30s, and End -->
+        <circle cx="${getX(points[0].time_sec)}" cy="${getY(points[0].retention_pct)}" r="3.5" fill="#10b981" />
+        <circle cx="${x5}" cy="${getY(points[1] ? points[1].retention_pct : 85)}" r="4" fill="#f59e0b" />
+        <circle cx="${getX(lastPt.time_sec)}" cy="${getY(lastPt.retention_pct)}" r="3.5" fill="#10b981" />
+      `;
+    }
+
+    // =========================================================================
+    // BAYESIAN CTR & VIRALITY PREDICTION
+    // =========================================================================
+    function runBayesianPrediction() {
+      clearTimeout(ctrDebounceTimer);
+      const title = document.getElementById("input-ctr-title").value;
+      const countEl = document.getElementById("title-char-count");
+      countEl.innerText = `${title.length} / 60`;
+      countEl.className = title.length > 60 
+        ? "absolute right-3 top-1/2 -translate-y-1/2 text-xs font-mono text-rose-400 font-bold"
+        : "absolute right-3 top-1/2 -translate-y-1/2 text-xs font-mono text-zinc-400";
+
+      ctrDebounceTimer = setTimeout(async () => {
+        try {
+          const resp = await fetch("/api/algorithm/ctr-predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title })
+          });
+          const data = await resp.json();
+          if (data.success && data.prediction) {
+            const pred = data.prediction;
+            document.getElementById("pred-ctr-val").innerText = pred.expected_ctr_pct + "%";
+            const ci = pred.credible_interval || [4.0, 7.5];
+            document.getElementById("pred-ctr-ci").innerText = `95% CI: [${ci[0]}% - ${ci[1]}%]`;
+            document.getElementById("pred-virality-val").innerText = pred.virality_index + " / 100";
+
+            // Format check
+            const formatEl = document.getElementById("pred-format-val");
+            if (title.length > 62) {
+              formatEl.innerText = "Truncated";
+              formatEl.className = "text-xl font-bold text-rose-400 mt-1 block";
+            } else {
+              formatEl.innerText = "Optimal";
+              formatEl.className = "text-xl font-bold text-purple-300 mt-1 block";
+            }
+
+            // Signals container
+            const sigContainer = document.getElementById("pred-signals-container");
+            sigContainer.innerHTML = "";
+            (pred.strengths || []).forEach(s => {
+              const div = document.createElement("div");
+              div.className = "flex items-center gap-1.5 text-emerald-400";
+              div.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 flex-shrink-0"></i><span>${s}</span>`;
+              sigContainer.appendChild(div);
+            });
+            (pred.audit_flags || []).forEach(f => {
+              const div = document.createElement("div");
+              div.className = "flex items-center gap-1.5 text-amber-400";
+              div.innerHTML = `<i data-lucide="alert-circle" class="w-3.5 h-3.5 flex-shrink-0"></i><span>${f}</span>`;
+              sigContainer.appendChild(div);
+            });
+            lucide.createIcons();
+          }
+        } catch (e) {
+          console.error("CTR prediction failed", e);
+        }
+      }, 250);
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard: " + text);
+      }).catch(() => {
+        prompt("Copy this title:", text);
+      });
+    }
+  </script>
+</body>
+</html>
